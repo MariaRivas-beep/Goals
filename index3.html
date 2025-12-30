@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pantalla de Carga</title>
+    <link rel="stylesheet" href="styles3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bahiana&family=Boldonse&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Englebert&family=Figtree:ital,wght@0,300..900;1,300..900&family=Inconsolata:wght@200..900&family=League+Gothic&family=Mea+Culpa&family=Momo+Signature&family=Momo+Trust+Display&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Rubik+Spray+Paint&family=Syne+Mono&family=Zalando+Sans+SemiExpanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+   <canvas id="veil-canvas"></canvas>
+
+    <div id="loader-wrapper">
+        <div id="loader-container">
+            <div id="loading-text">0%</div>
+            <div class="progress-bar">
+                <div id="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" style="display: none;"> <div class="question-container">
+            <p id="typing-text" class="typing-animation"></p>
+            <div class="button-container">
+                <button id="button1" class="hidden">Yes</button>
+                <button id="button2" class="hidden">No</button>
+            </div>
+        </div>
+    </div>
+    <div id="success-screen" style="display: none;">
+    <div class="curved-text-container">
+        <svg viewBox="0 0 500 500">
+            <path id="curve" d="M75,250 a175,175 0 1,1 350,0 a175,175 0 1,1 -350,0" fill="transparent"/>
+            <text>
+                <textPath xlink:href="#curve" class="congrats-text">
+                    CONGRATULATIONS • CONGRATULATIONS • CONGRATULATIONS • 
+                </textPath>
+            </text>
+        </svg>
+    </div>
+</div>
+<div id="folder-container">
+    <div class="folder">
+        <div class="folder-back"></div>
+        <div class="card">
+    <div class="card-layout">
+        <div class="card-left">
+            <h2 style="font-size: 2.5rem; margin-bottom: 15px;">CONGRATULATIONS!</h2>
+            <p style="font-size: 1.2rem; line-height: 1.5; font-family: 'Zalando Sans SemiExpanded', sans-serif;">
+                Sabia que lo lograrías ;).<br>
+                Recuerda que: <i>"y todo lo que hagais, hacedlo de corazón, como para el Señor y no para los hombres</i>
+" - Colosenses 3:23 <br>
+                Praise the Lord por este nuevo logro en tu vida. Sigue confiando en Él y trabajando duro 
+                para alcanzar tus metas. <b>Let's go for more!</b>
+            </br>
+           
+            </p>
+             <button id="back-to-menu" class="back-btn">Back to Menu</button>
+        </div>
+        <div class="card-right">
+            <img src="untitled folder/Diseño sin título.gif" class="card-gif">
+        </div>
+    </div>
+</div>
+        <div class="folder-front"></div>
+    </div>
+</div>
+<div id="no-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 15000; flex-direction: column; justify-content: center; align-items: center;">
+    
+    <h1 id="dont-worry-text" style="opacity: 0; transition: opacity 1.5s ease; font-size: 3rem; margin-bottom: 30px;">I know, no era lo que esperabas pero...</h1>
+
+    <div id="bouncing-card" class="bouncing-card" style="display: none;">
+        <p font-family="Zalando Sans SemiExpanded, sans-serif">Recuerda que Dios sabe todas las cosas, a pesar de que en el momento no las entendamos, o no salga como esperabamos
+            <i> "Porque mis pensamientos no son vuestros pensamientos, ni vuestros caminos mis caminos, dijo Jehová. Como son más altos los cielos que la tierra, así son mis 
+             caminos más altos que vuestros caminos, y mis pensamientos más que vuestros pensamientos."</i>" - Isaías 55:8-9.
+             Recuerda que Él tiene un plan perfecto para ti, <b>y que todo obra para bien a los que le aman.</b>
+        </p>
+        <button onclick="location.reload()" class="back-btn">Back to menu</button>
+    </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>

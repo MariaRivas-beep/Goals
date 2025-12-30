@@ -1,0 +1,355 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif; /* Cambiado a una fuente más moderna */
+    background-color: transparent !important; /* Permitimos ver el canvas */
+    color: #fff; /* Texto blanco por defecto */
+    overflow: hidden; /* Oculta scrollbar inicial si el contenido no cabe */
+}
+
+/* Pantalla negra de fondo (loader) */
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out; /* Transición más suave */
+}
+
+#loader-container {
+    text-align: center;
+    width: 300px;
+}
+
+#loading-text {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progress {
+    width: 0%;
+    height: 100%;
+    background-color: #00ff00; /* Un verde vibrante para la barra */
+    transition: width 0.1s linear;
+}
+
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden; /* Asegura que no sea interactuable */
+}
+
+/* --- Nuevos estilos para la pregunta y botones --- */
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura completa del viewport */
+    flex-direction: column;
+    text-align: center;
+}
+
+.question-container {
+    padding: 20px;
+}
+
+#typing-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00ff00;
+    white-space: normal; /* Cambiado a normal para evitar problemas de desbordamiento */
+    overflow: hidden;
+    border-right: .15em solid orange;
+    animation: blink-caret .75s step-end infinite;
+    display: inline-block; /* Ayuda a que el cursor se mantenga junto al texto */
+}
+
+/* Animación de typing - el ancho se ajusta para revelar el texto */
+@keyframes typing {
+    from { max-width: 0 }
+    to { max-width: 100% } /* Esto será controlado por JS para el efecto real */
+}
+
+/* Animación del cursor parpadeante */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+}
+
+.button-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px; /* Espacio entre los botones */
+    justify-content: center;
+}
+
+.button-container button {
+    background-color: #333; /* Fondo oscuro */
+    color: #00ff00; /* Texto verde */
+    border: 2px solid #00ff00; /* Borde verde */
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-width: 120px; /* Ancho mínimo para que se vean bien */
+}
+
+.button-container button:hover {
+    background-color: #00ff00; /* Fondo verde al pasar el ratón */
+    color: #000; /* Texto negro al pasar el ratón */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); /* Sombra brillante */
+}
+
+/* Clase para ocultar los botones */
+.hidden {
+    opacity: 0;
+    transform: translateY(20px); /* Un poco hacia abajo */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    pointer-events: none; /* Inactivo hasta que aparezca */
+}
+
+/* Clase para mostrar los botones */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+/* Pantalla de éxito */
+#success-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.curved-text-container {
+    width: 500px;
+    height: 500px;
+    animation: rotateText 10s linear infinite; /* El loop circular */
+}
+
+.congrats-text {
+    fill: #00ff00; /* Verde neón */
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+/* Animación de rotación */
+@keyframes rotateText {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+/* Contenedor principal: Centrado y por encima de todo */
+#folder-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000; /* Super alto */
+    width: 250px;
+    height: 180px;
+}
+
+/* Contenedor principal: Sin transform para no romper el position:fixed del hijo */
+#folder-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -90px; /* Mitad de la altura */
+    margin-left: -125px; /* Mitad del ancho */
+    z-index: 10000;
+    width: 250px;
+    height: 180px;
+    display: none; /* Se activa por JS */
+}
+
+.folder {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.folder-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #e6b800;
+    border-radius: 5px 15px 5px 5px;
+    z-index: 1;
+}
+
+/* Pestaña de la carpeta */
+.folder-back::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 80px;
+    height: 15px;
+    background-color: #e6b800;
+    border-radius: 10px 10px 0 0;
+}
+
+.folder-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ffd700;
+    border-radius: 5px;
+    z-index: 3;
+    transition: transform 0.5s ease;
+    transform-origin: bottom;
+    border-bottom: 3px solid #b8860b;
+}
+
+.folder:hover .folder-front {
+    transform: rotateX(-40deg);
+}
+
+/* La tarjeta blanca gigante */
+/* Estado normal de la tarjeta (dentro de la carpeta) */
+.card {
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    left: 5%;
+    top: 10%;
+    background-color: white;
+    z-index: 2;
+    padding: 30px;
+    box-sizing: border-box;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Animación más fluida */
+    border-radius: 15px;
+    opacity: 0;
+    visibility: hidden;
+    color: black;
+    display: flex; /* Para alinear el contenido interno */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* EFECTO AL ABRIR: Centrado perfecto y tamaño controlado */
+.folder:hover .card {
+    position: fixed; /* Sale del flujo de la carpeta */
+    top: 50%;       /* Al centro vertical */
+    left: 50%;      /* Al centro horizontal */
+    transform: translate(-50%, -50%) scale(1); /* El truco para centrar objetos fijos */
+    
+    width: 70vw;    /* Ocupa el 70% del ancho de la pantalla */
+    height: 60vh;   /* Ocupa el 60% del alto de la pantalla */
+    
+    z-index: 10001;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 0 100px rgba(0,0,0,0.6); /* Sombra para dar profundidad */
+}
+
+/* Ajuste del contenido interno para que texto y gif no se peguen */
+.card-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center; /* Centra verticalmente el contenido */
+    gap: 40px;          /* Espacio entre texto e imagen */
+}
+
+.card-left {
+    flex: 1;
+    text-align: left;
+}
+
+.card-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.card-gif {
+    max-width: 500%;
+    max-height: 500px;
+    border-radius: 10px;
+}
+.back-btn {
+    margin-top: 25px;
+    padding: 12px 25px;
+    background-color: #333;
+    color: #ffd700; /* Texto amarillo como la carpeta */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+}
+
+.back-btn:hover {
+    background-color: #ffd700;
+    color: #000;
+    transform: scale(1.05);
+}
+/* Animación de entrada con rebote */
+@keyframes bounceIn {
+    0% { transform: scale(0.1); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    80% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.bouncing-card {
+    background: white;
+    color: black;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 50px rgba(255, 255, 255, 0.2);
+    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.bouncing-card p {
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 1.6;
+}
+#veil-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Asegura que esté detrás de todo */
+    background-color: #000; /* El fondo negro ahora lo da el canvas */
+}
+
