@@ -161,3 +161,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
         animateVeil();
     }
+function resizeCanvas() {
+    // Usamos innerWidth y innerHeight para captar el tamaño real del móvil
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Si tienes muchas partículas, en móvil podrías reducirlas para mejorar rendimiento
+    if(window.innerWidth < 768) {
+        particleCount = 20; 
+    }
+}
