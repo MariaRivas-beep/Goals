@@ -353,3 +353,41 @@ body, html {
     background-color: #000; /* El fondo negro ahora lo da el canvas */
 }
 
+/* AJUSTES PARA MÓVILES */
+@media (max-width: 768px) {
+    /* 1. Ajuste de textos y contenedores */
+    h1 { font-size: 1.8rem !important; }
+    .card-text, p { font-size: 1rem !important; }
+
+    /* 2. La tarjeta de la carpeta (YES) */
+    .folder:hover .card {
+        width: 90vw;    /* Casi todo el ancho */
+        height: 80vh;   /* Casi todo el alto */
+        padding: 20px;
+        overflow-y: auto; /* Permite scroll si el texto es largo */
+    }
+
+    .card-layout {
+        flex-direction: column; /* Texto arriba, GIF abajo */
+        gap: 20px;
+    }
+
+    .card-gif {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 3. La tarjeta de rebote (NO) */
+    .bouncing-card {
+        width: 85vw;
+        padding: 20px;
+        margin: 10px;
+    }
+
+    /* 4. Botones más fáciles de tocar con el dedo */
+    button {
+        width: 100%; /* Botones a lo ancho del contenedor */
+        max-width: 250px;
+        padding: 15px !important;
+    }
+}
